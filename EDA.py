@@ -42,7 +42,12 @@ if login_token is not None:
 
         st.markdown(
             """
-            Some info.
+            Note:- 
+
+1. Period under consideration July-2022 till January-2023
+2. Geo distance of 80 KM is considered for analysis
+3. Median is considered for comparison as mean is detrimental to outliers
+
         """
         )
 else:
