@@ -11,11 +11,11 @@ st.set_page_config(layout="wide")
 if os.environ["env"] == "dev":
     os.environ["redirect_uri"] = "http://localhost:8501/"
 else:
-    os.environ["redirect_uri"] = "http://localhost:8501/"
+    os.environ["redirect_uri"] = "https://nileshchilka-visualization-app-jllfj8.streamlit.app/"
 
 login_token = msal_authentication(
     auth={
-        "clientId": os.environ["client_id"],
+        "clientId": os.environ["client-id"],
         "authority": os.environ["authority"],
         "redirectUri": os.environ["redirect_uri"],
         "postLogoutRedirectUri": "/"
