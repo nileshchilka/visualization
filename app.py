@@ -8,7 +8,7 @@ import streamlit as st
 
 st.set_page_config(layout="wide")
 
-if os.environ["env"]:
+if os.environ["env"] == "dev":
     os.environ["redirect_uri"] = "http://localhost:8501/"
 else:
     os.environ["redirect_uri"] = "http://localhost:8501/"
