@@ -10,7 +10,7 @@ st.set_page_config(
 if os.environ["env"] == "dev":
     os.environ["redirect_uri"] = "http://localhost:8501/"
 else:
-    os.environ["redirect_uri"] = "https://nileshchilka-visualization-eda-urmkkl.streamlit.app/"
+    os.environ["redirect_uri"] = "https://visualization-eda-dev.streamlit.app/"
 
 login_token = msal_authentication(
     auth={
