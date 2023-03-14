@@ -1,11 +1,11 @@
 apmt_theme = """
         <style>
-            :root {
-            --primary-color: #ff4b4b;
-            --background-color: #ffffff;
-            --secondary-background-color: #ffffff;
-            --text-color: #31333F;
-            --font: "Source Sans Pro", sans-serif;
+            body{
+                background-color: transparent;
+            }
+            
+            #root{
+                background-color: white !important;
             }
             
             /* section color to white*/
