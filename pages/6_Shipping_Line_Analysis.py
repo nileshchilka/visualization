@@ -11,7 +11,7 @@ add_logo(apmt_logo_small, 10)
 st.markdown("# Shipping Line Analysis")
 st.sidebar.header("Shipping Line Analysis")
 
-st.pyplot(fig=shipping_line_analysis())
+st.plotly_chart(shipping_line_analysis(), use_container_width=True)
 
 st.text("""Observations:
             Shows the distribution of the Shipping lines per terminal for 7 months period

@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 import pandas as pd
 
 from read_data import moor_anchor_dfv2, imo_to_teu, moor_anchor_df
@@ -10,15 +11,34 @@ total_c = "limegreen"
 def vessel_dis_per():
     
     plot_df = pd.read_csv("data/Vessel_Distribution_Percentage.csv",header=[0],index_col=[0])
-    fig, axs = plt.subplots()
-    plot_df.plot.bar(stacked=True,figsize=(10, 5),ax=axs)
 
-    plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
-    plt.xlabel("Terminal")
-    plt.ylabel("Percentage")
-    plt.xticks(rotation=15)
-    plt.grid(axis = 'y',linestyle = '--')
-    plt.title("Vessel Distribution Percentage")
+    fig = go.Figure(
+        layout=go.Layout(
+            height=500,
+            title="Vessel Distribution Percentage", barmode="relative",
+            yaxis_showticklabels=True, yaxis_showgrid=False,
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.8],
+            font=dict(size=10), legend_orientation="v", legend_x=1, legend_y=1,
+            margin=dict(t=25)
+        )
+    )
+
+    for j, col in enumerate(plot_df.columns):
+        fig.add_bar(
+            x=plot_df.index, y=plot_df[col], width=0.4, name=col,
+            marker_line=dict(width=1, color="#333")
+        )
+    fig.update_layout(xaxis_title="Terminals", yaxis_title="Percentage", width=1000)
+
+    # fig, axs = plt.subplots()
+    # plot_df.plot.bar(stacked=True,figsize=(10, 5),ax=axs)
+    #
+    # plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
+    # plt.xlabel("Terminal")
+    # plt.ylabel("Percentage")
+    # plt.xticks(rotation=15)
+    # plt.grid(axis = 'y',linestyle = '--')
+    # plt.title("Vessel Distribution Percentage")
     
     return fig
 
@@ -26,52 +46,157 @@ def vessel_distribution_count():
 
     plot_df = pd.read_csv("data/Vessel_Distribution_Count.csv",header=[0],index_col=[0])
 
-    fig, axs = plt.subplots()
-    plot_df.plot.bar(stacked=True,figsize=(10, 5),ax=axs)
+    fig = go.Figure(
+        layout=go.Layout(
+            height=500,
+            title="Vessel Distribution Count", barmode="relative",
+            yaxis_showticklabels=True, yaxis_showgrid=False,
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 2.5],
+            font=dict(size=10), legend_orientation="v", legend_x=1, legend_y=1,
+            margin=dict(t=25)
+        )
+    )
 
-    plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
-    plt.xlabel("Terminal")
-    plt.ylabel("Count of vessels")
-    plt.xticks(rotation=15)
-    plt.grid(axis = 'y',linestyle = '--')
-    plt.title("Vessel Distribution Count")
+    for j, col in enumerate(plot_df.columns):
+        fig.add_bar(
+            x=plot_df.index, y=plot_df[col], width=0.4, name=col,
+            marker_line=dict(width=1, color="#333")
+        )
+    fig.update_layout(xaxis_title="Terminals", yaxis_title="Percentage", width=1000)
+
+    # fig, axs = plt.subplots()
+    # plot_df.plot.bar(stacked=True,figsize=(10, 5),ax=axs)
+    #
+    # plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
+    # plt.xlabel("Terminal")
+    # plt.ylabel("Count of vessels")
+    # plt.xticks(rotation=15)
+    # plt.grid(axis = 'y',linestyle = '--')
+    # plt.title("Vessel Distribution Count")
     
     return fig
 
 def per_of_vessels_based_on_teu():
-    df = pd.read_csv("data/Percentage_of_vessels_based_on_TEU.csv",header=[0,1],index_col=[0])*100
+    plot_df = pd.read_csv("data/Percentage_of_vessels_based_on_TEU.csv",header=[0,1],index_col=[0])*100
 
-    apmt_plot_df = df["APMT"]
-    non_apmt_plot_df = df["Non APMT"]
+    # Create a figure with the right layout
+    fig = go.Figure(
+        layout=go.Layout(
+            title="Percentage of vessels based on TEU\n APMT vs Non APMT",
+            height=600, width=1000, barmode="relative",
+            yaxis_showticklabels=True, yaxis_showgrid=False,
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.5],
+            # Secondary y-axis overlayed on the primary one and not visible
+            yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
+            font=dict(size=10), legend_x=0, legend_y=1, legend_orientation="h",
+            # hovermode="x", # dict(b=0,t=10,l=0,r=10)
+            margin=dict(t=25)
+        )
+    )
 
-    fig, axs = plt.subplots()
-    (non_apmt_plot_df).plot.bar(stacked=True,figsize=(15, 5),ax=axs,position=-0.1,width=.2,rot=0,label="Non APMT",hatch="//")
-    (apmt_plot_df).plot.bar(stacked=True,figsize=(15, 5),ax=axs,position=1,width=.2,rot=0,label="APMT")
+    # Define some colors for the product, revenue pairs
+    colors = {
+        "APMT": {
+            '0-250': '#636EFA',
+            '250-1000': '#EF553B',
+            '1000-4000': '#00CC96',
+            '4000-8000': '#AB63FA',
+            '8000-12000': '#FFA15A',
+            '12000-16000': '#19D3F3',
+            '16000-30000': '#FF6692',
+        },
+        "Non APMT": {
+            '0-250': '#636EFA',
+            '250-1000': '#EF553B',
+            '1000-4000': '#00CC96',
+            '4000-8000': '#AB63FA',
+            '8000-12000': '#FFA15A',
+            '12000-16000': '#19D3F3',
+            '16000-30000': '#FF6692',
+        }
+    }
 
-    plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
-    plt.title("Percentage of vessels based on TEU\n APMT vs Non APMT")
-    plt.ylabel("Percentage")
-    plt.xlabel("Months")
+    # Add the traces
+    for i, t in enumerate(colors):
+        for j, col in enumerate(plot_df[t].columns):
+            if (plot_df[t][col] == 0).all():
+                continue
+            if t == "Non APMT":
+                fig.add_bar(
+                    x=plot_df.index, y=plot_df[t][col],
+                    # Set the right yaxis depending on the selected product (from enumerate)
+                    yaxis=f"y{i + 1}",
+                    # Offset the bar trace, offset needs to match the width
+                    # The values here are in milliseconds, 1billion ms is ~1/3 month
+                    offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
+                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
+                    marker_line=dict(width=2, color="#333"),  # hovertemplate="%{y}<extra></extra>"
+                )
+            else:
+                fig.add_bar(
+                    x=plot_df.index, y=plot_df[t][col],
+                    # Set the right yaxis depending on the selected product (from enumerate)
+                    yaxis=f"y{i + 1}",
+                    # Offset the bar trace, offset needs to match the width
+                    # The values here are in milliseconds, 1billion ms is ~1/3 month
+                    offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
+                    legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
+                    marker_line=dict(width=2, color="#333"),
+                    # hovertemplate="%{y}<extra></extra>"
+                )
+    fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=1000)
+
+    # apmt_plot_df = df["APMT"]
+    # non_apmt_plot_df = df["Non APMT"]
+    #
+    # fig, axs = plt.subplots()
+    # (non_apmt_plot_df).plot.bar(stacked=True,figsize=(15, 5),ax=axs,position=-0.1,width=.2,rot=0,label="Non APMT",hatch="//")
+    # (apmt_plot_df).plot.bar(stacked=True,figsize=(15, 5),ax=axs,position=1,width=.2,rot=0,label="APMT")
+    #
+    # plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
+    # plt.title("Percentage of vessels based on TEU\n APMT vs Non APMT")
+    # plt.ylabel("Percentage")
+    # plt.xlabel("Months")
     
     return fig
 
 def shipping_line_analysis():
     
-    df = pd.read_csv("data/Shipping_Line_Analysis.csv",header=[0],index_col=[0])
-    apmt_plot_df = df["APMT"]
-    non_apmt_plot_df = df["Non APMT"]
+    plot_df = pd.read_csv("data/Shipping_Line_Analysis.csv",header=[0],index_col=[0])
 
-    fig, axs = plt.subplots()
-    (apmt_plot_df).plot.bar(ax=axs,figsize=(15,5),position=1,width=.3,rot=5,color=apmt_c,label="APMT")
-    (non_apmt_plot_df).plot.bar(ax=axs,figsize=(15,5),position=0,width=.3,rot=5,color=non_apmt_c,label="Non APMT")
+    fig = go.Figure(
+        layout=go.Layout(
+            title="Shipping Line Analysis", barmode="group",
+            yaxis_showticklabels=True, yaxis_showgrid=False,
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.5],
+            font=dict(size=10), legend_orientation="h", legend_x=0, legend_y=1,
+            margin=dict(t=25)
+        )
+    )
 
+    colors = {"APMT": apmt_c, "Non APMT": non_apmt_c}
 
-    plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
-    plt.title("Shipping Line Analysis\n APMT vs Non APMT")
-    plt.legend()
-    plt.ylabel("Percentage")
-    plt.xlabel("Shipping Lines")
-    
+    for j, col in enumerate(plot_df.columns):
+        fig.add_bar(
+            x=plot_df.index, y=plot_df[col], width=0.4, name=col,
+            marker_line=dict(width=1, color="#333"), marker_color=colors[col]
+        )
+    fig.update_layout(xaxis_title="Shipping Lines", yaxis_title="Percentage", width=1000)
+
+    # apmt_plot_df = df["APMT"]
+    # non_apmt_plot_df = df["Non APMT"]
+    #
+    # fig, axs = plt.subplots()
+    # (apmt_plot_df).plot.bar(ax=axs,figsize=(15,5),position=1,width=.3,rot=5,color=apmt_c,label="APMT")
+    # (non_apmt_plot_df).plot.bar(ax=axs,figsize=(15,5),position=0,width=.3,rot=5,color=non_apmt_c,label="Non APMT")
+    #
+    #
+    # plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
+    # plt.title("Shipping Line Analysis\n APMT vs Non APMT")
+    # plt.legend()
+    # plt.ylabel("Percentage")
+    # plt.xlabel("Shipping Lines")
+
     return fig
 
 def percentage_of_vessels_not_anchored_before_serving():

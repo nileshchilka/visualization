@@ -10,7 +10,7 @@ add_logo(apmt_logo_small, 10)
 st.markdown("# Vessel Distribution")
 st.sidebar.header("Vessel Distribution")
 
-st.pyplot(fig=vessel_dis_per())
+st.plotly_chart(vessel_dis_per(), use_container_width=True, sharing="streamlit", theme="streamlit")
 
 st.text("""Observations:
             Above plot depicts Vessel distribution Per Terminal on the basis of cargo capacity.
@@ -21,7 +21,7 @@ st.text("""Observations:
             """)
 
 
-st.pyplot(fig=vessel_distribution_count())
+st.plotly_chart(vessel_distribution_count(), use_container_width=True, sharing="streamlit", theme="streamlit")
 
 st.text("""Observations:
             This plot depicts Vessel count distribution per terminal of the Rotterdam port on the basis of Cargo capacity for the 7 months data.

@@ -11,7 +11,7 @@ add_logo(apmt_logo_small, 10)
 st.markdown("# Vessels based on TEU")
 st.sidebar.header("Vessels based on TEU")
 
-st.pyplot(fig=per_of_vessels_based_on_teu())
+st.plotly_chart(per_of_vessels_based_on_teu(), use_container_width=True)
 
 st.text("""Observations:
             Above graph depicts the Percentage Distribution of the vessels based on Cargo Capacity on a monthly basis for APMT & Non APMT.
