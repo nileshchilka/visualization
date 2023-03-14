@@ -1,7 +1,11 @@
 import streamlit as st
 from plot import vessel_dis_per, vessel_distribution_count
+from streamlit_extras.app_logo import add_logo
+from constants import apmt_theme, apmt_logo_small
 
 st.set_page_config(page_title="Vessel Distribution", page_icon="📈")
+st.markdown(apmt_theme, unsafe_allow_html=True)
+add_logo(apmt_logo_small, 10)
 
 st.markdown("# Vessel Distribution")
 st.sidebar.header("Vessel Distribution")

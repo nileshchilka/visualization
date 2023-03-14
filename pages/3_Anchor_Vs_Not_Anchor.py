@@ -1,8 +1,12 @@
 import streamlit as st
 from plot import percentage_of_vessels_not_anchored_before_serving, \
     percentage_of_vessels_anchored_before_serving, percentage_vessels_not_anchored_before_serving_line
+from streamlit_extras.app_logo import add_logo
+from constants import apmt_theme, apmt_logo_small
 
 st.set_page_config(page_title="Anchor Vs Not Anchor", page_icon="📈")
+st.markdown(apmt_theme, unsafe_allow_html=True)
+add_logo(apmt_logo_small, 10)
 
 st.markdown("# Anchor Vs Not Anchor")
 st.sidebar.header("Anchor Vs Not Anchor")

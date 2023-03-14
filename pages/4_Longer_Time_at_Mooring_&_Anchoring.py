@@ -1,7 +1,12 @@
 import streamlit as st
 from plot import percentage_of_vessels_which_took_longer_time_at_anchor, percentage_of_vessels_which_took_longer_time_at_mooring
+from streamlit_extras.app_logo import add_logo
+from constants import apmt_theme, apmt_logo_small
+
 
 st.set_page_config(page_title="Longer Time at Mooring & Anchoring", page_icon="📈")
+st.markdown(apmt_theme, unsafe_allow_html=True)
+add_logo(apmt_logo_small, 10)
 
 st.markdown("# Longer Time at Mooring & Anchoring")
 st.sidebar.header("Longer Time at Mooring & Anchoring")

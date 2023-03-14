@@ -1,18 +1,31 @@
 from msal_streamlit_authentication import msal_authentication
+from streamlit_extras.app_logo import add_logo
+from constants import apmt_theme, apmt_logo_small
+from utils import add_img
 
 import streamlit as st
 import os
 
-st.set_page_config(
-    page_title="EDA",
-    layout="wide"
-)
+st.set_page_config(page_title="EDA", layout="wide")
+
+add_logo(apmt_logo_small, 10)
+
+st.markdown(apmt_theme, unsafe_allow_html=True)
+
 if os.environ["env"] == "dev":
     os.environ["redirect_uri"] = "http://localhost:8501/"
 else:
     os.environ["redirect_uri"] = "https://visualization-eda-dev.streamlit.app/"
 
-login_token = msal_authentication(
+
+col1, col2 = st.columns([3, 1])
+
+with col1:
+
+    st.image(add_img('images/apm-terminals-logo.png', 872, 239))
+
+with col2:
+    login_token = msal_authentication(
     auth={
         "clientId": os.environ["client-id"],
         "authority": os.environ["authority"],
@@ -34,7 +47,6 @@ login_token = msal_authentication(
 
 if login_token is not None:
     if "accessToken" in login_token.keys():
-        print("inside")
 
         st.write("# EDA - APMT v/s Non APMT! ")
 

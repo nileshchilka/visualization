@@ -3,3 +3,4 @@ pandas
 numpy
 matplotlib
 msal-streamlit-authentication
+streamlit-extras

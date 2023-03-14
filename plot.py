@@ -3,8 +3,8 @@ import pandas as pd
 
 from read_data import moor_anchor_dfv2, imo_to_teu, moor_anchor_df
 
-apmt_c = "royalblue"
-non_apmt_c = "orange"
+apmt_c = "#ff6441"
+non_apmt_c = "royalblue"
 total_c = "limegreen"
 
 def vessel_dis_per():
@@ -438,8 +438,8 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_stay():
     non_apmt_plot_df = plot_df["Non APMT"].dropna()
     nap = list(plot_df.set_index("0")["Non APMT"].dropna().index)
 
-    apmt_plot_df.plot.bar(ax=axs,label="APMT",color="royalblue",position=1,figsize=(10, 5),width=0.3)
-    non_apmt_plot_df.plot.bar(ax=axs,label="Non APMT",color="orange",position=0,figsize=(10, 5),width=0.3)
+    apmt_plot_df.plot.bar(ax=axs,label="APMT",color=apmt_c,position=1,figsize=(10, 5),width=0.3)
+    non_apmt_plot_df.plot.bar(ax=axs,label="Non APMT",color=non_apmt_c,position=0,figsize=(10, 5),width=0.3)
 
     plt.xticks(range(0,6),[ a +"\n\n\n" + n for a,n in zip(ap,nap)])
     plt.xlabel("Terminal")
@@ -459,8 +459,8 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_traffic():
     non_apmt_plot_df = plot_df["Non APMT"].dropna()
     nap = list(plot_df.set_index("1")["Non APMT"].dropna().index)
 
-    apmt_plot_df.plot.bar(ax=axs,label="APMT",color="royalblue",position=1,figsize=(10, 5),width=0.3)
-    non_apmt_plot_df.plot.bar(ax=axs,label="Non APMT",color="orange",position=0,figsize=(10, 5),width=0.3)
+    apmt_plot_df.plot.bar(ax=axs,label="APMT",color=apmt_c,position=1,figsize=(10, 5),width=0.3)
+    non_apmt_plot_df.plot.bar(ax=axs,label="Non APMT",color=non_apmt_c,position=0,figsize=(10, 5),width=0.3)
 
     plt.xticks(range(0,6),[ a +"\n\n\n" + n for a,n in zip(ap,nap)])
     plt.xlabel("Terminal")
