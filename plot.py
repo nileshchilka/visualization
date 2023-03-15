@@ -516,7 +516,7 @@ def percentage_of_vessels_which_took_longer_time_at_mooring():
     Q1 = full_lt_ser.quantile(0.25)
     Q3 = full_lt_ser.quantile(0.75)
     IQR = Q3 - Q1
-    print(Q3 + 1.5 * IQR)
+    # print(Q3 + 1.5 * IQR)
     Data = {"July": {}, "August": {}, "September": {}, "October": {}, "November": {}, "December": {}, "January": {}}
     for i, mon in zip(range(len(apmt_full_lt)), Data):
         full_lt_i = apmt_full_lt[i] + non_apmt_full_lt[i]
@@ -568,7 +568,7 @@ def percentage_of_vessels_which_took_longer_time_at_anchor():
     Q1 = full_lt_ser.quantile(0.25)
     Q3 = full_lt_ser.quantile(0.75)
     IQR = Q3 - Q1
-    print(Q3 + 1.5 * IQR)
+    # print(Q3 + 1.5 * IQR)
     Data = {"July": {}, "August": {}, "September": {}, "October": {}, "November": {}, "December": {}, "January": {}}
     for i, mon in zip(range(len(apmt_full_lt)), Data):
         full_lt_i = apmt_full_lt[i] + non_apmt_full_lt[i]
@@ -874,44 +874,163 @@ def mooring_duration_distribution():
     return fig
 
 def top_6_APMT_vs_Non_APMT_Terminals_on_port_stay():
-    fig, axs = plt.subplots()
-    title = "Top 6 APMT vs Non APMT Terminals on Port Stay"
-    plt.suptitle(title)
 
-    plot_df = pd.read_csv("data/Top_6_APMT_vs_Non_APMT_Terminals_on_Port_Stay.csv")
-    apmt_plot_df = plot_df["APMT"].dropna()
-    ap = list(plot_df.set_index("0")["APMT"].dropna().index)
-    non_apmt_plot_df = plot_df["Non APMT"].dropna()
-    nap = list(plot_df.set_index("0")["Non APMT"].dropna().index)
+    plot_df = pd.read_csv("data/Top_6_APMT_vs_Non_APMT_Terminals_on_Port_Stay.csv",header=[0,1],index_col=[0])
+    apmt_plot_df = plot_df["APMT"][:-6]
+    apmt = list(plot_df["APMT"][:-6].index)
+    non_apmt_plot_df = plot_df["Non APMT"][6:]
+    non_apmt = list(plot_df["Non APMT"][6:].index)
 
-    apmt_plot_df.plot.bar(ax=axs,label="APMT",color=apmt_c,position=1,figsize=(10, 5),width=0.3)
-    non_apmt_plot_df.plot.bar(ax=axs,label="Non APMT",color=non_apmt_c,position=0,figsize=(10, 5),width=0.3)
+    non_apmt_plot_df.index = apmt
+    plot_df = pd.concat([apmt_plot_df, non_apmt_plot_df], axis=1, keys=["APMT", "Non APMT"])
 
-    plt.xticks(range(0,6),[ a +"\n\n\n" + n for a,n in zip(ap,nap)])
-    plt.xlabel("Terminal")
-    plt.ylabel("Duration in Hrs")
-    plt.legend()
+    # Create a figure with the right layout
+    fig = go.Figure(
+        layout=go.Layout(
+            title="Top 6 APMT vs Non APMT Terminals on Port Stay",
+            height=700, width=1000, barmode="relative",
+            yaxis_showticklabels=True, yaxis_showgrid=False,
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.2],
+            # Secondary y-axis overlayed on the primary one and not visible
+            yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
+            font=dict(size=10), legend_orientation="v",
+            # hovermode="x", # dict(b=0,t=10,l=0,r=10)
+            margin=dict(t=25)
+        )
+    )
+
+    # Define some colors for the product, revenue pairs
+    colors = {
+        "APMT": {
+            '0-250': '#636EFA',
+            '250-1000': '#EF553B',
+            '1000-4000': '#00CC96',
+            '4000-8000': '#AB63FA',
+            '8000-12000': '#FFA15A',
+            '12000-16000': '#19D3F3',
+            '16000-30000': '#FF6692',
+        },
+        "Non APMT": {
+            '0-250': '#636EFA',
+            '250-1000': '#EF553B',
+            '1000-4000': '#00CC96',
+            '4000-8000': '#AB63FA',
+            '8000-12000': '#FFA15A',
+            '12000-16000': '#19D3F3',
+            '16000-30000': '#FF6692',
+        }
+    }
+
+    # Add the traces
+    for i, t in enumerate(colors):
+        for j, col in enumerate(plot_df[t].columns):
+            if (plot_df[t][col] == 0).all():
+                continue
+            if t == "Non APMT":
+                fig.add_bar(
+                    x=[n + "<br> <br>" + a for a, n in zip(apmt, non_apmt)], y=plot_df[t][col],
+                    # Set the right yaxis depending on the selected product (from enumerate)
+                    yaxis=f"y{i + 1}",
+                    # Offset the bar trace, offset needs to match the width
+                    # The values here are in milliseconds, 1billion ms is ~1/3 month
+                    offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
+                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
+                    marker_line=dict(width=2, color="#333"),  # hovertemplate="%{y}<extra></extra>"
+                )
+            else:
+                fig.add_bar(
+                    x=[n + "<br> <br>" + a for a, n in zip(apmt, non_apmt)], y=plot_df[t][col],
+                    # Set the right yaxis depending on the selected product (from enumerate)
+                    yaxis=f"y{i + 1}",
+                    # Offset the bar trace, offset needs to match the width
+                    # The values here are in milliseconds, 1billion ms is ~1/3 month
+                    offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
+                    legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
+                    marker_line=dict(width=2, color="#333"),
+                    # hovertemplate="%{y}<extra></extra>"
+                )
+    fig.update_layout(xaxis_title="Terminal", yaxis_title="Duration in hrs", width=900)
+    fig.update_xaxes(tickangle=90)
     
     return fig
 
 def top_6_APMT_vs_Non_APMT_Terminals_on_port_traffic():
-    fig, axs = plt.subplots()
-    title = "Top 6 APMT vs Non APMT Terminals on Port Traffic"
-    plt.suptitle(title)
 
-    plot_df = pd.read_csv("data/Top_6_APMT_vs_Non_APMT_Terminals_on_Port_Traffic.csv")
-    apmt_plot_df = plot_df["APMT"].dropna()
-    ap = list(plot_df.set_index("1")["APMT"].dropna().index)
-    non_apmt_plot_df = plot_df["Non APMT"].dropna()
-    nap = list(plot_df.set_index("1")["Non APMT"].dropna().index)
+    plot_df = pd.read_csv("data/Top_6_APMT_vs_Non_APMT_Terminals_on_Port_Traffic.csv",header=[0,1],index_col=[0])
 
-    apmt_plot_df.plot.bar(ax=axs,label="APMT",color=apmt_c,position=1,figsize=(10, 5),width=0.3)
-    non_apmt_plot_df.plot.bar(ax=axs,label="Non APMT",color=non_apmt_c,position=0,figsize=(10, 5),width=0.3)
+    apmt_plot_df = plot_df["APMT"][:-6]
+    apmt = list(plot_df["APMT"][:-6].index)
+    non_apmt_plot_df = plot_df["Non APMT"][6:]
+    non_apmt = list(plot_df["Non APMT"][6:].index)
 
-    plt.xticks(range(0,6),[ a +"\n\n\n" + n for a,n in zip(ap,nap)])
-    plt.xlabel("Terminal")
-    plt.ylabel("Duration in Hrs")
-    plt.legend()
+    non_apmt_plot_df.index = apmt
+    plot_df = pd.concat([apmt_plot_df, non_apmt_plot_df], axis=1, keys=["APMT", "Non APMT"])
+
+    # Create a figure with the right layout
+    fig = go.Figure(
+        layout=go.Layout(
+            title="Top 6 APMT vs Non APMT Terminals on Port Traffic",
+            height=700, width=1000, barmode="relative",
+            yaxis_showticklabels=True, yaxis_showgrid=False,
+            yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
+            font=dict(size=10), legend_orientation="v",
+            # hovermode="x", # dict(b=0,t=10,l=0,r=10)
+            margin=dict(t=25)
+        )
+    )
+
+    # Define some colors for the product, revenue pairs
+    colors = {
+        "APMT": {
+            '0-250': '#636EFA',
+            '250-1000': '#EF553B',
+            '1000-4000': '#00CC96',
+            '4000-8000': '#AB63FA',
+            '8000-12000': '#FFA15A',
+            '12000-16000': '#19D3F3',
+            '16000-30000': '#FF6692',
+        },
+        "Non APMT": {
+            '0-250': '#636EFA',
+            '250-1000': '#EF553B',
+            '1000-4000': '#00CC96',
+            '4000-8000': '#AB63FA',
+            '8000-12000': '#FFA15A',
+            '12000-16000': '#19D3F3',
+            '16000-30000': '#FF6692',
+        }
+    }
+
+    # Add the traces
+    for i, t in enumerate(colors):
+        for j, col in enumerate(plot_df[t].columns):
+            if (plot_df[t][col] == 0).all():
+                continue
+            if t == "Non APMT":
+                fig.add_bar(
+                    x=[n + "<br> <br>" + a for a, n in zip(apmt, non_apmt)], y=plot_df[t][col],
+                    # Set the right yaxis depending on the selected product (from enumerate)
+                    yaxis=f"y{i + 1}",
+                    # Offset the bar trace, offset needs to match the width
+                    # The values here are in milliseconds, 1billion ms is ~1/3 month
+                    offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
+                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
+                    marker_line=dict(width=2, color="#333"),  # hovertemplate="%{y}<extra></extra>"
+                )
+            else:
+                fig.add_bar(
+                    x=[n + "<br> <br>" + a for a, n in zip(apmt, non_apmt)], y=plot_df[t][col],
+                    # Set the right yaxis depending on the selected product (from enumerate)
+                    yaxis=f"y{i + 1}",
+                    # Offset the bar trace, offset needs to match the width
+                    # The values here are in milliseconds, 1billion ms is ~1/3 month
+                    offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
+                    legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
+                    marker_line=dict(width=2, color="#333"),
+                    # hovertemplate="%{y}<extra></extra>"
+                )
+    fig.update_layout(xaxis_title="Terminal", yaxis_title="Count", width=900)
+    fig.update_xaxes(tickangle=90)
     
     return fig
 

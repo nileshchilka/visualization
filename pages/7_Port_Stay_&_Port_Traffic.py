@@ -11,7 +11,7 @@ add_logo(apmt_logo_small, 10)
 st.markdown("# Port Stay & Port Traffic")
 st.sidebar.header("Port Stay & Port Traffic")
 
-st.pyplot(fig=top_6_APMT_vs_Non_APMT_Terminals_on_port_stay())
+st.plotly_chart(top_6_APMT_vs_Non_APMT_Terminals_on_port_stay(), use_container_width=True)
 
 st.text("""Observations:
     Shows Median Port Stay Duration of Top 6 terminals of APMT vs Top 6 terminals of Non APMT
@@ -19,7 +19,7 @@ st.text("""Observations:
     """)
 
 
-st.pyplot(fig=top_6_APMT_vs_Non_APMT_Terminals_on_port_traffic())
+st.plotly_chart(top_6_APMT_vs_Non_APMT_Terminals_on_port_traffic(), use_container_width=True)
 
 st.text("""Observations:
     Shows the count of vessels served on daily basis at Top 6 terminals of APMT vs Top 6 terminals of Non APMT
