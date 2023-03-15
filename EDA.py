@@ -41,8 +41,8 @@ with st.sidebar:
     key=1 # Optional if only a single instance is needed
 )
 
-if login_token is not None:
-    if "accessToken" in login_token.keys():
+if True: #login_token is not None:
+    if True: #"accessToken" in login_token.keys():
 
         st.write("# EDA - APMT v/s Non APMT! ")
 
