@@ -11,7 +11,7 @@ add_logo(apmt_logo_small, 10)
 st.markdown("# Longer Time at Mooring & Anchoring")
 st.sidebar.header("Longer Time at Mooring & Anchoring")
 
-st.pyplot(fig=percentage_of_vessels_which_took_longer_time_at_mooring())
+st.plotly_chart(percentage_of_vessels_which_took_longer_time_at_mooring(), use_container_width=True)
 
 st.text("""Observations:
                 Above graph depicts the Mooring pattern of the vessels which took more than 42 hours to moor for APMT & Non APMT terminals & Green line represents the Total Mooring time(APMT & Non APMT terminal).
@@ -20,7 +20,7 @@ st.text("""Observations:
                 """)
 
 
-st.pyplot(fig=percentage_of_vessels_which_took_longer_time_at_anchor())
+st.plotly_chart(percentage_of_vessels_which_took_longer_time_at_anchor(), use_container_width=True)
 
 st.text("""Observations:
             Above graph depicts the Anchoring pattern of the vessels which were anchored for more than 75 hours for APMT & Non APMT terminals & Green line represents the Total Anchring time(APMT & Non APMT terminal).

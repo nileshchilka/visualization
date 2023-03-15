@@ -2,46 +2,6 @@ import pandas as pd
 
 imo_to_teu = pd.read_csv("data/imo_to_teu.csv")
 
-moor_anchor_df_070809 = pd.read_csv("data/mooring_anchor_070809.csv")
-moor_anchor_df_070809.columns = ["index","July","August","September"]
-moor_anchor_df_101112 = pd.read_csv("data/mooring_anchor_101112.csv")
-moor_anchor_df_101112.columns = ["index","October","November","December"]
-moor_anchor_df_01 = pd.read_csv("data/mooring_anchor_01.csv")
-moor_anchor_df_01.columns = ["index","January"]
-moor_anchor_df_01["order"] = [5,4,3,2,0,1,9,8,7,6]
-moor_anchor_df_01 = moor_anchor_df_01.sort_values("order").reset_index(drop=True)
-moor_anchor_df = pd.concat([moor_anchor_df_070809,moor_anchor_df_101112[["October","November","December"]],moor_anchor_df_01[["January"]]],axis=1)
-moor_anchor_df = moor_anchor_df.T
-moor_anchor_df.columns = moor_anchor_df.iloc[0].values
-moor_anchor_df = moor_anchor_df.iloc[1:]
-moor_anchor_df["len of target_apmt_port_calls_df"] = moor_anchor_df["len of target_apmt_port_calls_df"].astype(int)
-moor_anchor_df["len of target_non_apmt_port_calls_df"] = moor_anchor_df["len of target_non_apmt_port_calls_df"].astype(int)
-moor_anchor_df["len of target_port_calls_df"] = moor_anchor_df["len of target_apmt_port_calls_df"] + moor_anchor_df["len of target_non_apmt_port_calls_df"]
-
-len_data = []
-for lt in moor_anchor_df["apmt_port_calls_anchor_data"].to_list():
-    len_data.append(len([round(float(dur),2) for dur in lt[1:-1].split(", ")]))
-    
-moor_anchor_df["apmt_anchor_count"] = len_data
-moor_anchor_df["apmt_instantly_served"] = moor_anchor_df["len of target_apmt_port_calls_df"] - moor_anchor_df["apmt_anchor_count"]
-moor_anchor_df["apmt_instantly_served_per"] = (moor_anchor_df["apmt_instantly_served"] / moor_anchor_df["len of target_apmt_port_calls_df"]) * 100
-moor_anchor_df["apmt_anchor_count_per"] = (moor_anchor_df["apmt_anchor_count"] / moor_anchor_df["len of target_apmt_port_calls_df"]) * 100
-
-len_data = []
-for lt in moor_anchor_df["non_apmt_port_calls_anchor_data"].to_list():
-    len_data.append(len([round(float(dur),2) for dur in lt[1:-1].split(", ")]))
-    
-moor_anchor_df["non_apmt_anchor_count"] = len_data
-moor_anchor_df["non_apmt_instantly_served"] = moor_anchor_df["len of target_non_apmt_port_calls_df"] - moor_anchor_df["non_apmt_anchor_count"]
-moor_anchor_df["non_apmt_instantly_served_per"] = (moor_anchor_df["non_apmt_instantly_served"] / moor_anchor_df["len of target_non_apmt_port_calls_df"]) * 100
-moor_anchor_df["non_apmt_anchor_count_per"] = (moor_anchor_df["non_apmt_anchor_count"] / moor_anchor_df["len of target_non_apmt_port_calls_df"]) * 100
-
-moor_anchor_df["len of target_port_calls_df"] = moor_anchor_df["len of target_apmt_port_calls_df"] + moor_anchor_df["len of target_non_apmt_port_calls_df"]
-moor_anchor_df["total_anchor_count"] = moor_anchor_df["non_apmt_anchor_count"] + moor_anchor_df["apmt_anchor_count"]
-moor_anchor_df["total_instantly_served"] = moor_anchor_df["non_apmt_instantly_served"] + moor_anchor_df["apmt_instantly_served"]
-moor_anchor_df["total_anchor_count_per"] = (moor_anchor_df["total_anchor_count"] / moor_anchor_df["len of target_port_calls_df"]) * 100
-moor_anchor_df["total_instantly_served_per"] = (moor_anchor_df["total_instantly_served"] / moor_anchor_df["len of target_port_calls_df"]) * 100
-
 moor_anchor_df_070809v2 = pd.read_csv("data/mooring_anchor_070809v2.csv")
 moor_anchor_df_070809v2.columns = ["index","July","August","September"]
 moor_anchor_df_101112v2 = pd.read_csv("data/mooring_anchor_101112v2.csv")

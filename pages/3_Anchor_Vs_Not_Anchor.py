@@ -11,7 +11,7 @@ add_logo(apmt_logo_small, 10)
 st.markdown("# Anchor Vs Not Anchor")
 st.sidebar.header("Anchor Vs Not Anchor")
 
-st.pyplot(fig=percentage_of_vessels_not_anchored_before_serving())
+st.plotly_chart(percentage_of_vessels_not_anchored_before_serving(), use_container_width=True)
 
 st.text("""Observations:
             This plot depicts the vessel anchoring pattern on a monthly basis, Vessels which had zero waiting time.
@@ -20,7 +20,7 @@ st.text("""Observations:
 
             Formula :- for any given month, Total vessels not anchored/ Total vessels """)
 
-st.pyplot(fig=percentage_of_vessels_anchored_before_serving())
+st.plotly_chart(percentage_of_vessels_anchored_before_serving(), use_container_width=True)
 
 st.text("""Observations:
             This plot depicts the Anchoring behavior of the APMT & Non APMT terminals on a monthly basis.
@@ -28,7 +28,7 @@ st.text("""Observations:
 
             Formula:- for any given month, Total vessels anchored/ Total vessels """)
 
-st.pyplot(fig=percentage_vessels_not_anchored_before_serving_line())
+st.plotly_chart(percentage_vessels_not_anchored_before_serving_line(), use_container_width=True)
 
 st.text("""Observations:
             Above graph shows the Percentage of the vessels which were served instantly(Zero Waiting Time).

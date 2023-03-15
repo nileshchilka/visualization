@@ -11,7 +11,7 @@ add_logo(apmt_logo_small, 10)
 st.markdown("# Mooring & Anchoring Distribution")
 st.sidebar.header("Mooring & Anchoring Distribution")
 
-st.pyplot(fig=mooring_duration_distribution())
+st.plotly_chart(mooring_duration_distribution(), use_container_width=True)
 
 st.text("""Observations:
             Above graph shows the mooring distribution on Hourly basis for both APMT & Non APMT Terminals.
@@ -20,7 +20,7 @@ st.text("""Observations:
 
             """)
 
-st.pyplot(fig=anchor_duration_distribution())
+st.plotly_chart(anchor_duration_distribution(), use_container_width=True)
 
 st.text("""Observations:
             Above graph shows the Anchor distribution on Hourly basis for both APMT & Non APMT Terminals.
