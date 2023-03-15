@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import pandas as pd
 
@@ -15,7 +14,7 @@ def vessel_dis_per():
     fig = go.Figure(
         layout=go.Layout(
             height=500,
-            title="Vessel Distribution Percentage", barmode="relative",
+            title="Vessel Distribution (by TEU)  Percentage across terminals", barmode="relative",
             yaxis_showticklabels=True, yaxis_showgrid=False,
             yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.8],
             font=dict(size=10), legend_orientation="v", legend_x=1, legend_y=1,
@@ -29,16 +28,6 @@ def vessel_dis_per():
             marker_line=dict(width=1, color="#333")
         )
     fig.update_layout(xaxis_title="Terminals", yaxis_title="Percentage", width=1000)
-
-    # fig, axs = plt.subplots()
-    # plot_df.plot.bar(stacked=True,figsize=(10, 5),ax=axs)
-    #
-    # plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
-    # plt.xlabel("Terminal")
-    # plt.ylabel("Percentage")
-    # plt.xticks(rotation=15)
-    # plt.grid(axis = 'y',linestyle = '--')
-    # plt.title("Vessel Distribution Percentage")
     
     return fig
 
@@ -49,7 +38,7 @@ def vessel_distribution_count():
     fig = go.Figure(
         layout=go.Layout(
             height=500,
-            title="Vessel Distribution Count", barmode="relative",
+            title="Vessel Distribution (by TEU)  Count across terminals", barmode="relative",
             yaxis_showticklabels=True, yaxis_showgrid=False,
             yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 2.5],
             font=dict(size=10), legend_orientation="v", legend_x=1, legend_y=1,
@@ -62,17 +51,7 @@ def vessel_distribution_count():
             x=plot_df.index, y=plot_df[col], width=0.4, name=col,
             marker_line=dict(width=1, color="#333")
         )
-    fig.update_layout(xaxis_title="Terminals", yaxis_title="Percentage", width=1000)
-
-    # fig, axs = plt.subplots()
-    # plot_df.plot.bar(stacked=True,figsize=(10, 5),ax=axs)
-    #
-    # plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
-    # plt.xlabel("Terminal")
-    # plt.ylabel("Count of vessels")
-    # plt.xticks(rotation=15)
-    # plt.grid(axis = 'y',linestyle = '--')
-    # plt.title("Vessel Distribution Count")
+    fig.update_layout(xaxis_title="Terminals", yaxis_title="Count", width=1000)
     
     return fig
 
@@ -83,9 +62,9 @@ def per_of_vessels_based_on_teu():
     fig = go.Figure(
         layout=go.Layout(
             title="Percentage of vessels based on TEU\n APMT vs Non APMT",
-            height=500, width=1000, barmode="relative",
+            height=450, width=1000, barmode="relative",
             yaxis_showticklabels=True, yaxis_showgrid=False,
-            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.2],
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.1],
             # Secondary y-axis overlayed on the primary one and not visible
             yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
             font=dict(size=10), legend_orientation="v",
@@ -145,18 +124,6 @@ def per_of_vessels_based_on_teu():
                     # hovertemplate="%{y}<extra></extra>"
                 )
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=1000)
-
-    # apmt_plot_df = df["APMT"]
-    # non_apmt_plot_df = df["Non APMT"]
-    #
-    # fig, axs = plt.subplots()
-    # (non_apmt_plot_df).plot.bar(stacked=True,figsize=(15, 5),ax=axs,position=-0.1,width=.2,rot=0,label="Non APMT",hatch="//")
-    # (apmt_plot_df).plot.bar(stacked=True,figsize=(15, 5),ax=axs,position=1,width=.2,rot=0,label="APMT")
-    #
-    # plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
-    # plt.title("Percentage of vessels based on TEU\n APMT vs Non APMT")
-    # plt.ylabel("Percentage")
-    # plt.xlabel("Months")
     
     return fig
 
@@ -168,7 +135,7 @@ def shipping_line_analysis():
         layout=go.Layout(
             title="Shipping Line Analysis", barmode="group",
             yaxis_showticklabels=True, yaxis_showgrid=False,
-            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.5],
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.2],
             font=dict(size=10), legend_orientation="h", legend_x=0, legend_y=1,
             margin=dict(t=25)
         )
@@ -182,20 +149,6 @@ def shipping_line_analysis():
             marker_line=dict(width=1, color="#333"), marker_color=colors[col]
         )
     fig.update_layout(xaxis_title="Shipping Lines", yaxis_title="Percentage", width=1000)
-
-    # apmt_plot_df = df["APMT"]
-    # non_apmt_plot_df = df["Non APMT"]
-    #
-    # fig, axs = plt.subplots()
-    # (apmt_plot_df).plot.bar(ax=axs,figsize=(15,5),position=1,width=.3,rot=5,color=apmt_c,label="APMT")
-    # (non_apmt_plot_df).plot.bar(ax=axs,figsize=(15,5),position=0,width=.3,rot=5,color=non_apmt_c,label="Non APMT")
-    #
-    #
-    # plt.legend(loc="upper left",bbox_to_anchor=(1.02, 1.02))
-    # plt.title("Shipping Line Analysis\n APMT vs Non APMT")
-    # plt.legend()
-    # plt.ylabel("Percentage")
-    # plt.xlabel("Shipping Lines")
 
     return fig
 
@@ -285,7 +238,7 @@ def percentage_of_vessels_not_anchored_before_serving():
             title="Percentage of vessels not anchored before serving\n APMT vs Non APMT",
             height=500, width=900, barmode="relative",
             yaxis_showticklabels=True, yaxis_showgrid=False,
-            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.2],
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.1],
             # Secondary y-axis overlayed on the primary one and not visible
             yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
             font=dict(size=10), legend_orientation="v",
@@ -437,7 +390,7 @@ def percentage_of_vessels_anchored_before_serving():
             title="Percentage of vessels not anchored before serving\n APMT vs Non APMT",
             height=500, width=900, barmode="relative",
             yaxis_showticklabels=True, yaxis_showgrid=False,
-            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.2],
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.1],
             # Secondary y-axis overlayed on the primary one and not visible
             yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
             font=dict(size=10), legend_orientation="v",
@@ -534,7 +487,7 @@ def percentage_of_vessels_which_took_longer_time_at_mooring():
         layout=go.Layout(
             title="Percentage of vessels which took longer time at Mooring", barmode="group",
             yaxis_showticklabels=True, yaxis_showgrid=False,
-            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.3],
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.1],
             font=dict(size=10), legend_orientation="h", legend_x=0, legend_y=1,
             margin=dict(t=25)
         )
@@ -547,7 +500,7 @@ def percentage_of_vessels_which_took_longer_time_at_mooring():
             x=plot_df.index, y=plot_df[col], width=0.4, name=col,
             marker_line=dict(width=1, color="#333"), marker_color=colors[col]
         )
-    fig.add_scatter(x=pd.DataFrame(Data).T["Total"].index, y=pd.DataFrame(Data).T["Total"].values, name="Total",marker_color=total_c)
+    fig.add_scatter(x=pd.DataFrame(Data).T["Total"].index, y=pd.DataFrame(Data).T["Total"].values, name="Average",marker_color=total_c)
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=1000)
 
     return fig
@@ -586,7 +539,7 @@ def percentage_of_vessels_which_took_longer_time_at_anchor():
         layout=go.Layout(
             title="Percentage of vessels which took longer time at Anchor", barmode="group",
             yaxis_showticklabels=True, yaxis_showgrid=False,
-            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.3],
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.1],
             font=dict(size=10), legend_orientation="h", legend_x=0, legend_y=1,
             margin=dict(t=25)
         )
@@ -599,7 +552,7 @@ def percentage_of_vessels_which_took_longer_time_at_anchor():
             x=plot_df.index, y=plot_df[col], width=0.4, name=col,
             marker_line=dict(width=1, color="#333"), marker_color=colors[col]
         )
-    fig.add_scatter(x=pd.DataFrame(Data).T["Total"].index, y=pd.DataFrame(Data).T["Total"].values, name="Total", marker_color=total_c)
+    fig.add_scatter(x=pd.DataFrame(Data).T["Total"].index, y=pd.DataFrame(Data).T["Total"].values, name="Average", marker_color=total_c)
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=1000)
 
     return fig
@@ -614,7 +567,7 @@ def percentage_vessels_not_anchored_before_serving_line():
         )
     )
 
-    fig.add_scatter(x=moor_anchor_dfv2["total_instantly_served_per"].index, y=moor_anchor_dfv2["total_instantly_served_per"].values, name="Total",
+    fig.add_scatter(x=moor_anchor_dfv2["total_instantly_served_per"].index, y=moor_anchor_dfv2["total_instantly_served_per"].values, name="Average",
                     marker_color=total_c)
     fig.add_scatter(x=moor_anchor_dfv2["apmt_instantly_served_per"].index,
                     y=moor_anchor_dfv2["apmt_instantly_served_per"].values, name="APMT",
@@ -682,10 +635,10 @@ def anchor_duration_distribution():
     # Create a figure with the right layout
     fig = go.Figure(
         layout=go.Layout(
-            title="Anchor Duration Distribution\n APMT vs Non APMT",
+            title="Anchor Duration Distribution (in hrs) \n APMT vs Non APMT",
             height=500, width=1000, barmode="relative",
             yaxis_showticklabels=True, yaxis_showgrid=False,
-            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.2],
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.1],
             # Secondary y-axis overlayed on the primary one and not visible
             yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
             font=dict(size=10), legend_orientation="v",
@@ -805,10 +758,10 @@ def mooring_duration_distribution():
     # Create a figure with the right layout
     fig = go.Figure(
         layout=go.Layout(
-            title="Mooring Duration Distribution\n APMT vs Non APMT",
+            title="Mooring Duration Distribution (in hrs) \n APMT vs Non APMT",
             height=500, width=1000, barmode="relative",
             yaxis_showticklabels=True, yaxis_showgrid=False,
-            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.2],
+            yaxis_range=[0, plot_df.groupby(axis=1, level=0).sum().max().max() * 1.1],
             # Secondary y-axis overlayed on the primary one and not visible
             yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
             font=dict(size=10), legend_orientation="v",

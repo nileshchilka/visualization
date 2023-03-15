@@ -44,7 +44,7 @@ with st.sidebar:
 if True: #login_token is not None:
     if True: #"accessToken" in login_token.keys():
 
-        st.write("# EDA - APMT v/s Non APMT! ")
+        st.write("# EDA - APMT v/s Non APMT (Rotterdam) ")
 
         st.sidebar.success("Select a plot above.")
 

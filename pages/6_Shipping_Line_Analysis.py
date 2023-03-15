@@ -13,8 +13,9 @@ st.sidebar.header("Shipping Line Analysis")
 
 st.plotly_chart(shipping_line_analysis(), use_container_width=True)
 
-st.text("""Observations:
-            Shows the distribution of the Shipping lines per terminal for 7 months period
+st.text("""Observations:-
+    Shows the distribution of the Shipping lines per terminal for 7 months period
 
-            Formula:- For any given APMT or Non APMT terminal, count of vessels of particular shipping line / total count of vessels
+Formula:- For any given APMT or Non APMT terminal, count of vessels of particular 
+    shipping line / total count of vessels
             """)

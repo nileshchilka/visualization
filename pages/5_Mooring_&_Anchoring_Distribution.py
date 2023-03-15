@@ -13,19 +13,22 @@ st.sidebar.header("Mooring & Anchoring Distribution")
 
 st.plotly_chart(mooring_duration_distribution(), use_container_width=True)
 
-st.text("""Observations:
-            Above graph shows the mooring distribution on Hourly basis for both APMT & Non APMT Terminals.
+st.text("""Observations:-
+    Above graph shows the mooring distribution on Hourly basis for both APMT & 
+    Non APMT Terminals.
 
-            Formula: -  for any given month, count of each vessel category/ Total vessels
+Formula:-  for any given month, count of each vessel category/ Total vessels
 
             """)
 
 st.plotly_chart(anchor_duration_distribution(), use_container_width=True)
 
 st.text("""Observations:
-            Above graph shows the Anchor distribution on Hourly basis for both APMT & Non APMT Terminals.
+    Above graph shows the Anchor distribution on Hourly basis for both APMT & 
+    Non APMT Terminals.
 
-            Formula: -  for any given month, count of each vessel category that anchored/ Total vessels that anchored
+Formula:-  for any given month, count of each vessel category that anchored/ Total 
+    vessels that anchored
             """)
 
 

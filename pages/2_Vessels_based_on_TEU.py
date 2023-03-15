@@ -13,7 +13,8 @@ st.sidebar.header("Vessels based on TEU")
 
 st.plotly_chart(per_of_vessels_based_on_teu(), use_container_width=True)
 
-st.text("""Observations:
-            Above graph depicts the Percentage Distribution of the vessels based on Cargo Capacity on a monthly basis for APMT & Non APMT.
+st.text("""Observations:-
+    Above graph depicts the Percentage Distribution of the vessels based on
+    Cargo Capacity on a monthly basis for APMT & Non APMT.
 
-            Formula:- For any given month, count of each vessel category/ Total count""")
+Formula:- For any given month & terminal, count of each vessel category/Total count""")
