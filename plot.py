@@ -2,6 +2,7 @@ import plotly.graph_objects as go
 import pandas as pd
 
 from read_data import moor_anchor_dfv2, imo_to_teu
+from constants import colors_list, colors_teu, colors_dur
 
 apmt_c = "#ff6441"
 non_apmt_c = "royalblue"
@@ -25,7 +26,7 @@ def vessel_dis_per():
     for j, col in enumerate(plot_df.columns):
         fig.add_bar(
             x=plot_df.index, y=plot_df[col], width=0.4, name=col,
-            marker_line=dict(width=1, color="#333"),
+            marker_line=dict(width=1, color="#333"), marker_color= colors_list[j],
             hovertemplate='%{y:.1f}%'
         )
     fig.update_layout(xaxis_title="Terminals", yaxis_title="Percentage", width=1000)
@@ -50,7 +51,7 @@ def vessel_distribution_count():
     for j, col in enumerate(plot_df.columns):
         fig.add_bar(
             x=plot_df.index, y=plot_df[col], width=0.4, name=col,
-            marker_line=dict(width=1, color="#333")
+            marker_line=dict(width=1, color="#333"), marker_color= colors_list[j],
         )
     fig.update_layout(xaxis_title="Terminals", yaxis_title="Count", width=1000)
     
@@ -74,30 +75,7 @@ def per_of_vessels_based_on_teu():
         )
     )
 
-    # Define some colors for the product, revenue pairs
-    colors = {
-        "APMT": {
-            '0-250': '#636EFA',
-            '250-1000': '#EF553B',
-            '1000-4000': '#00CC96',
-            '4000-8000': '#AB63FA',
-            '8000-12000': '#FFA15A',
-            '12000-16000': '#19D3F3',
-            '16000-30000': '#FF6692',
-        },
-        "Non APMT": {
-            '0-250': '#636EFA',
-            '250-1000': '#EF553B',
-            '1000-4000': '#00CC96',
-            '4000-8000': '#AB63FA',
-            '8000-12000': '#FFA15A',
-            '12000-16000': '#19D3F3',
-            '16000-30000': '#FF6692',
-        }
-    }
-
-    # Add the traces
-    for i, t in enumerate(colors):
+    for i, t in enumerate(colors_teu):
         for j, col in enumerate(plot_df[t].columns):
             if (plot_df[t][col] == 0).all():
                 continue
@@ -109,7 +87,7 @@ def per_of_vessels_based_on_teu():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors_teu[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}%'
                 )
@@ -121,7 +99,7 @@ def per_of_vessels_based_on_teu():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_color=colors_teu[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}%'
                 )
@@ -249,30 +227,8 @@ def percentage_of_vessels_not_anchored_before_serving():
         )
     )
 
-    # Define some colors for the product, revenue pairs
-    colors = {
-        "APMT": {
-            '0-250': '#636EFA',
-            '250-1000': '#EF553B',
-            '1000-4000': '#00CC96',
-            '4000-8000': '#AB63FA',
-            '8000-12000': '#FFA15A',
-            '12000-16000': '#19D3F3',
-            '16000-30000': '#FF6692',
-        },
-        "Non APMT": {
-            '0-250': '#636EFA',
-            '250-1000': '#EF553B',
-            '1000-4000': '#00CC96',
-            '4000-8000': '#AB63FA',
-            '8000-12000': '#FFA15A',
-            '12000-16000': '#19D3F3',
-            '16000-30000': '#FF6692',
-        }
-    }
-
     # Add the traces
-    for i, t in enumerate(colors):
+    for i, t in enumerate(colors_teu):
         for j, col in enumerate(plot_df[t].columns):
             if (plot_df[t][col] == 0).all():
                 continue
@@ -284,7 +240,7 @@ def percentage_of_vessels_not_anchored_before_serving():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors_teu[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}%'
                 )
@@ -296,7 +252,7 @@ def percentage_of_vessels_not_anchored_before_serving():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_color=colors_teu[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}%'
                 )
@@ -401,30 +357,8 @@ def percentage_of_vessels_anchored_before_serving():
         )
     )
 
-    # Define some colors for the product, revenue pairs
-    colors = {
-        "APMT": {
-            '0-250': '#636EFA',
-            '250-1000': '#EF553B',
-            '1000-4000': '#00CC96',
-            '4000-8000': '#AB63FA',
-            '8000-12000': '#FFA15A',
-            '12000-16000': '#19D3F3',
-            '16000-30000': '#FF6692',
-        },
-        "Non APMT": {
-            '0-250': '#636EFA',
-            '250-1000': '#EF553B',
-            '1000-4000': '#00CC96',
-            '4000-8000': '#AB63FA',
-            '8000-12000': '#FFA15A',
-            '12000-16000': '#19D3F3',
-            '16000-30000': '#FF6692',
-        }
-    }
-
     # Add the traces
-    for i, t in enumerate(colors):
+    for i, t in enumerate(colors_teu):
         for j, col in enumerate(plot_df[t].columns):
             if (plot_df[t][col] == 0).all():
                 continue
@@ -436,7 +370,7 @@ def percentage_of_vessels_anchored_before_serving():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors_teu[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}%'
                 )
@@ -448,7 +382,7 @@ def percentage_of_vessels_anchored_before_serving():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_color=colors_teu[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}%'
                 )
@@ -653,32 +587,7 @@ def anchor_duration_distribution():
         )
     )
 
-    # Define some colors for the product, revenue pairs
-    colors = {
-        "APMT": {
-            '0-10': '#636EFA',
-            '10-20': '#EF553B',
-            '20-30': '#00CC96',
-            '30-40': '#AB63FA',
-            '40-50': '#FFA15A',
-            '50-60': '#19D3F3',
-            '60-70': '#FF6692',
-            '70+': '#b0fc21'
-        },
-        "Non APMT": {
-            '0-10': '#636EFA',
-            '10-20': '#EF553B',
-            '20-30': '#00CC96',
-            '30-40': '#AB63FA',
-            '40-50': '#FFA15A',
-            '50-60': '#19D3F3',
-            '60-70': '#FF6692',
-            '70+': '#b0fc21'
-        }
-    }
-
-    # Add the traces
-    for i, t in enumerate(colors):
+    for i, t in enumerate(colors_dur):
         for j, col in enumerate(plot_df[t].columns):
             if (plot_df[t][col] == 0).all():
                 continue
@@ -690,7 +599,7 @@ def anchor_duration_distribution():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors_dur[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}%'
                 )
@@ -702,7 +611,7 @@ def anchor_duration_distribution():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_color=colors_dur[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}%'
                 )
@@ -776,32 +685,7 @@ def mooring_duration_distribution():
         )
     )
 
-    # Define some colors for the product, revenue pairs
-    colors = {
-        "APMT": {
-            '0-10': '#636EFA',
-            '10-20': '#EF553B',
-            '20-30': '#00CC96',
-            '30-40': '#AB63FA',
-            '40-50': '#FFA15A',
-            '50-60': '#19D3F3',
-            '60-70': '#FF6692',
-            '70+': '#b0fc21'
-        },
-        "Non APMT": {
-            '0-10': '#636EFA',
-            '10-20': '#EF553B',
-            '20-30': '#00CC96',
-            '30-40': '#AB63FA',
-            '40-50': '#FFA15A',
-            '50-60': '#19D3F3',
-            '60-70': '#FF6692',
-            '70+': '#b0fc21'
-        }
-    }
-
-    # Add the traces
-    for i, t in enumerate(colors):
+    for i, t in enumerate(colors_dur):
         for j, col in enumerate(plot_df[t].columns):
             if (plot_df[t][col] == 0).all():
                 continue
@@ -813,7 +697,7 @@ def mooring_duration_distribution():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors_dur[t][col],
                     marker_line=dict(width=2, color="#333"), hovertemplate='%{y:.1f}%'
                 )
             else:
@@ -824,7 +708,7 @@ def mooring_duration_distribution():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_color=colors_dur[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}%'
                 )
@@ -857,30 +741,8 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_stay():
         )
     )
 
-    # Define some colors for the product, revenue pairs
-    colors = {
-        "APMT": {
-            '0-250': '#636EFA',
-            '250-1000': '#EF553B',
-            '1000-4000': '#00CC96',
-            '4000-8000': '#AB63FA',
-            '8000-12000': '#FFA15A',
-            '12000-16000': '#19D3F3',
-            '16000-30000': '#FF6692',
-        },
-        "Non APMT": {
-            '0-250': '#636EFA',
-            '250-1000': '#EF553B',
-            '1000-4000': '#00CC96',
-            '4000-8000': '#AB63FA',
-            '8000-12000': '#FFA15A',
-            '12000-16000': '#19D3F3',
-            '16000-30000': '#FF6692',
-        }
-    }
 
-    # Add the traces
-    for i, t in enumerate(colors):
+    for i, t in enumerate(colors_teu):
         for j, col in enumerate(plot_df[t].columns):
             if (plot_df[t][col] == 0).all():
                 continue
@@ -892,7 +754,7 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_stay():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors_teu[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f} hrs'
                 )
@@ -904,7 +766,7 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_stay():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_color=colors_teu[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f} hrs'
                 )
@@ -938,30 +800,7 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_traffic():
         )
     )
 
-    # Define some colors for the product, revenue pairs
-    colors = {
-        "APMT": {
-            '0-250': '#636EFA',
-            '250-1000': '#EF553B',
-            '1000-4000': '#00CC96',
-            '4000-8000': '#AB63FA',
-            '8000-12000': '#FFA15A',
-            '12000-16000': '#19D3F3',
-            '16000-30000': '#FF6692',
-        },
-        "Non APMT": {
-            '0-250': '#636EFA',
-            '250-1000': '#EF553B',
-            '1000-4000': '#00CC96',
-            '4000-8000': '#AB63FA',
-            '8000-12000': '#FFA15A',
-            '12000-16000': '#19D3F3',
-            '16000-30000': '#FF6692',
-        }
-    }
-
-    # Add the traces
-    for i, t in enumerate(colors):
+    for i, t in enumerate(colors_teu):
         for j, col in enumerate(plot_df[t].columns):
             if (plot_df[t][col] == 0).all():
                 continue
@@ -973,7 +812,7 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_traffic():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors_teu[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}'
                 )
@@ -985,7 +824,7 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_traffic():
                     # Offset the bar trace, offset needs to match the width
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
-                    legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
+                    legendgrouptitle_text=t, name=col, marker_color=colors_teu[t][col],
                     marker_line=dict(width=2, color="#333"),
                     hovertemplate='%{y:.1f}'
                 )
