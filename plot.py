@@ -25,7 +25,8 @@ def vessel_dis_per():
     for j, col in enumerate(plot_df.columns):
         fig.add_bar(
             x=plot_df.index, y=plot_df[col], width=0.4, name=col,
-            marker_line=dict(width=1, color="#333")
+            marker_line=dict(width=1, color="#333"),
+            hovertemplate='%{y:.1f}%'
         )
     fig.update_layout(xaxis_title="Terminals", yaxis_title="Percentage", width=1000)
     
@@ -109,7 +110,8 @@ def per_of_vessels_based_on_teu():
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
-                    marker_line=dict(width=2, color="#333"),  # hovertemplate="%{y}<extra></extra>"
+                    marker_line=dict(width=2, color="#333"),
+                    hovertemplate='%{y:.1f}%'
                 )
             else:
                 fig.add_bar(
@@ -121,7 +123,7 @@ def per_of_vessels_based_on_teu():
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
                     marker_line=dict(width=2, color="#333"),
-                    # hovertemplate="%{y}<extra></extra>"
+                    hovertemplate='%{y:.1f}%'
                 )
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=1000)
     
@@ -146,7 +148,8 @@ def shipping_line_analysis():
     for j, col in enumerate(plot_df.columns):
         fig.add_bar(
             x=plot_df.index, y=plot_df[col], width=0.4, name=col,
-            marker_line=dict(width=1, color="#333"), marker_color=colors[col]
+            marker_line=dict(width=1, color="#333"), marker_color=colors[col],
+            hovertemplate='%{y:.1f}%'
         )
     fig.update_layout(xaxis_title="Shipping Lines", yaxis_title="Percentage", width=1000)
 
@@ -242,7 +245,6 @@ def percentage_of_vessels_not_anchored_before_serving():
             # Secondary y-axis overlayed on the primary one and not visible
             yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
             font=dict(size=10), legend_orientation="v",
-            # hovermode="x", # dict(b=0,t=10,l=0,r=10)
             margin=dict(t=25)
         )
     )
@@ -283,7 +285,8 @@ def percentage_of_vessels_not_anchored_before_serving():
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
-                    marker_line=dict(width=2, color="#333"),  # hovertemplate="%{y}<extra></extra>"
+                    marker_line=dict(width=2, color="#333"),
+                    hovertemplate='%{y:.1f}%'
                 )
             else:
                 fig.add_bar(
@@ -295,7 +298,7 @@ def percentage_of_vessels_not_anchored_before_serving():
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
                     marker_line=dict(width=2, color="#333"),
-                    # hovertemplate="%{y}<extra></extra>"
+                    hovertemplate='%{y:.1f}%'
                 )
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=1000)
 
@@ -394,7 +397,6 @@ def percentage_of_vessels_anchored_before_serving():
             # Secondary y-axis overlayed on the primary one and not visible
             yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
             font=dict(size=10), legend_orientation="v",
-            # hovermode="x", # dict(b=0,t=10,l=0,r=10)
             margin=dict(t=25)
         )
     )
@@ -435,7 +437,8 @@ def percentage_of_vessels_anchored_before_serving():
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
-                    marker_line=dict(width=2, color="#333"),  # hovertemplate="%{y}<extra></extra>"
+                    marker_line=dict(width=2, color="#333"),
+                    hovertemplate='%{y:.1f}%'
                 )
             else:
                 fig.add_bar(
@@ -447,7 +450,7 @@ def percentage_of_vessels_anchored_before_serving():
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
                     marker_line=dict(width=2, color="#333"),
-                    # hovertemplate="%{y}<extra></extra>"
+                    hovertemplate='%{y:.1f}%'
                 )
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=1000)
 
@@ -498,9 +501,11 @@ def percentage_of_vessels_which_took_longer_time_at_mooring():
     for j, col in enumerate(plot_df.columns):
         fig.add_bar(
             x=plot_df.index, y=plot_df[col], width=0.4, name=col,
-            marker_line=dict(width=1, color="#333"), marker_color=colors[col]
+            marker_line=dict(width=1, color="#333"), marker_color=colors[col],
+            hovertemplate='%{y:.1f}%'
         )
-    fig.add_scatter(x=pd.DataFrame(Data).T["Total"].index, y=pd.DataFrame(Data).T["Total"].values, name="Average",marker_color=total_c)
+    fig.add_scatter(x=pd.DataFrame(Data).T["Total"].index, y=pd.DataFrame(Data).T["Total"].values, name="Average",
+                    marker_color=total_c, hovertemplate='%{y:.1f}%')
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=1000)
 
     return fig
@@ -550,9 +555,11 @@ def percentage_of_vessels_which_took_longer_time_at_anchor():
     for j, col in enumerate(plot_df.columns):
         fig.add_bar(
             x=plot_df.index, y=plot_df[col], width=0.4, name=col,
-            marker_line=dict(width=1, color="#333"), marker_color=colors[col]
+            marker_line=dict(width=1, color="#333"), marker_color=colors[col],
+            hovertemplate='%{y:.1f}%'
         )
-    fig.add_scatter(x=pd.DataFrame(Data).T["Total"].index, y=pd.DataFrame(Data).T["Total"].values, name="Average", marker_color=total_c)
+    fig.add_scatter(x=pd.DataFrame(Data).T["Total"].index, y=pd.DataFrame(Data).T["Total"].values, name="Average",
+                    marker_color=total_c, hovertemplate='%{y:.1f}%')
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=1000)
 
     return fig
@@ -568,13 +575,13 @@ def percentage_vessels_not_anchored_before_serving_line():
     )
 
     fig.add_scatter(x=moor_anchor_dfv2["total_instantly_served_per"].index, y=moor_anchor_dfv2["total_instantly_served_per"].values, name="Average",
-                    marker_color=total_c)
+                    marker_color=total_c, hovertemplate='%{y:.1f}%')
     fig.add_scatter(x=moor_anchor_dfv2["apmt_instantly_served_per"].index,
                     y=moor_anchor_dfv2["apmt_instantly_served_per"].values, name="APMT",
-                    marker_color=apmt_c)
+                    marker_color=apmt_c, hovertemplate='%{y:.1f}%')
     fig.add_scatter(x=moor_anchor_dfv2["non_apmt_instantly_served_per"].index,
                     y=moor_anchor_dfv2["non_apmt_instantly_served_per"].values, name="Non APMT",
-                    marker_color=non_apmt_c)
+                    marker_color=non_apmt_c, hovertemplate='%{y:.1f}%')
 
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=1000)
     
@@ -642,7 +649,6 @@ def anchor_duration_distribution():
             # Secondary y-axis overlayed on the primary one and not visible
             yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
             font=dict(size=10), legend_orientation="v",
-            # hovermode="x", # dict(b=0,t=10,l=0,r=10)
             margin=dict(t=25)
         )
     )
@@ -685,7 +691,8 @@ def anchor_duration_distribution():
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
-                    marker_line=dict(width=2, color="#333"),  # hovertemplate="%{y}<extra></extra>"
+                    marker_line=dict(width=2, color="#333"),
+                    hovertemplate='%{y:.1f}%'
                 )
             else:
                 fig.add_bar(
@@ -697,7 +704,7 @@ def anchor_duration_distribution():
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
                     marker_line=dict(width=2, color="#333"),
-                    # hovertemplate="%{y}<extra></extra>"
+                    hovertemplate='%{y:.1f}%'
                 )
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=900)
 
@@ -765,7 +772,6 @@ def mooring_duration_distribution():
             # Secondary y-axis overlayed on the primary one and not visible
             yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
             font=dict(size=10), legend_orientation="v",
-            # hovermode="x", # dict(b=0,t=10,l=0,r=10)
             margin=dict(t=25)
         )
     )
@@ -808,7 +814,7 @@ def mooring_duration_distribution():
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
-                    marker_line=dict(width=2, color="#333"),  # hovertemplate="%{y}<extra></extra>"
+                    marker_line=dict(width=2, color="#333"), hovertemplate='%{y:.1f}%'
                 )
             else:
                 fig.add_bar(
@@ -820,7 +826,7 @@ def mooring_duration_distribution():
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
                     marker_line=dict(width=2, color="#333"),
-                    # hovertemplate="%{y}<extra></extra>"
+                    hovertemplate='%{y:.1f}%'
                 )
     fig.update_layout(xaxis_title="Months", yaxis_title="Percentage", width=900)
 
@@ -847,7 +853,6 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_stay():
             # Secondary y-axis overlayed on the primary one and not visible
             yaxis2=go.layout.YAxis(visible=False, matches="y", overlaying="y", anchor="x", ),
             font=dict(size=10), legend_orientation="v",
-            # hovermode="x", # dict(b=0,t=10,l=0,r=10)
             margin=dict(t=25)
         )
     )
@@ -888,7 +893,8 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_stay():
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
-                    marker_line=dict(width=2, color="#333"),  # hovertemplate="%{y}<extra></extra>"
+                    marker_line=dict(width=2, color="#333"),
+                    hovertemplate='%{y:.1f} hrs'
                 )
             else:
                 fig.add_bar(
@@ -900,7 +906,7 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_stay():
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
                     marker_line=dict(width=2, color="#333"),
-                    # hovertemplate="%{y}<extra></extra>"
+                    hovertemplate='%{y:.1f} hrs'
                 )
     fig.update_layout(xaxis_title="Terminal", yaxis_title="Duration in hrs", width=900)
     fig.update_xaxes(tickangle=90)
@@ -968,7 +974,8 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_traffic():
                     # The values here are in milliseconds, 1billion ms is ~1/3 month
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_pattern_shape="/", marker_color=colors[t][col],
-                    marker_line=dict(width=2, color="#333"),  # hovertemplate="%{y}<extra></extra>"
+                    marker_line=dict(width=2, color="#333"),
+                    hovertemplate='%{y:.1f}'
                 )
             else:
                 fig.add_bar(
@@ -980,7 +987,7 @@ def top_6_APMT_vs_Non_APMT_Terminals_on_port_traffic():
                     offsetgroup=str(i), offset=(i - 1) * 0.3, width=0.3, legendgroup=t,
                     legendgrouptitle_text=t, name=col, marker_color=colors[t][col],
                     marker_line=dict(width=2, color="#333"),
-                    # hovertemplate="%{y}<extra></extra>"
+                    hovertemplate='%{y:.1f}'
                 )
     fig.update_layout(xaxis_title="Terminal", yaxis_title="Count", width=900)
     fig.update_xaxes(tickangle=90)

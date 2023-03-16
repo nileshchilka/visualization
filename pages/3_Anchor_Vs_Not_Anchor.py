@@ -13,30 +13,33 @@ st.sidebar.header("Anchor Vs Not Anchor")
 
 st.plotly_chart(percentage_of_vessels_not_anchored_before_serving(), use_container_width=True)
 
-st.text("""Observations:
-    This plot depicts the vessel anchoring pattern on a monthly basis, Vessels 
-    which had zero waiting time.
-    X-axis shows months & Y-axis shows Percentage of the vessel visits.
-    APMT has performed slightly better overall compared to Non APMT terminals.
-
-Formula :- for any given month & terminal, Total vessels not anchored/Total vessels """)
+st.text("""Description:-
+    • This plot depicts the vessel anchoring pattern on a monthly basis, Vessels 
+      which had zero waiting time.
+      X-axis shows months & Y-axis shows Percentage of the vessel visits.
+Observations:-
+    • APMT has performed slightly better overall compared to Non APMT terminals.
+Formula:- 
+    • for any given month & terminal, Total vessels not anchored/Total vessels """)
 
 st.plotly_chart(percentage_of_vessels_anchored_before_serving(), use_container_width=True)
 
-st.text("""Observations:
-    This plot depicts the Anchoring behavior of the APMT & Non APMT terminals on a
-    monthly basis.
-    From this graph we observe that APMT has lower waiting time for the vessels 
-    compared to Non APMT terminals.
-
-Formula:- for any given month & terminal, Total vessels anchored/Total vessels """)
+st.text("""Description:-
+    • This plot depicts the Anchoring behavior of the APMT & Non APMT terminals on a
+      monthly basis.
+Observations:-
+    • From this graph we observe that APMT has lower waiting time for the vessels 
+      compared to Non APMT terminals.
+Formula:- 
+    • for any given month & terminal, Total vessels anchored/Total vessels """)
 
 st.plotly_chart(percentage_vessels_not_anchored_before_serving_line(), use_container_width=True)
 
-st.text("""Observations:
-    Above graph shows the Percentage of the vessels which were served 
-    instantly (Zero Waiting Time).
-    We see that APMT has outperformed Non APMT terminals and has zero waiting time 
-    for the vessels.
-
-Formula :- for any given month & terminal, Total vessels not anchored/Total vessels""")
+st.text("""Description:-
+    • Above graph shows the Percentage of the vessels which were served 
+      instantly (Zero Waiting Time).
+Observation:-
+    • We see that APMT has outperformed Non APMT terminals and has zero waiting time 
+      for the vessels.
+Formula:- 
+    • for any given month & terminal, Total vessels not anchored/Total vessels""")
