@@ -32,8 +32,8 @@ st.text("""Description:-
 Observations:-
     • Non APMT has performed better than APMT in range of 0-10 in hrs
     • Non APMT has performed better than APMT in below 30 hrs
-    • Percentage of 70+ hrs is more in APMT than Non APMT but APMT outperformed in January 
-      with no vessels taking more time than 50 hrs
+    • Percentage of 70+ hrs is more in APMT than Non APMT but APMT outperformed 
+      in January with no vessels taking more time than 50 hrs
 Formula:-  
     • for any given month, count of each vessel category that anchored/ Total 
       vessels that anchored

@@ -32,7 +32,9 @@ st.text("""Description:-
     for more than 75 hours for APMT & Non APMT terminals & Green line represents 
     the Average Anchoring time (APMT & Non APMT terminal).
 Observations:-
-    • Non APMT Performed better than APMT but in January APMT outperformed Non APMT
+    • Non APMT Performed better than APMT but in January APMT outperformed Non APMT,
+      where we found no record of vessels taking longer than 75 hours at Anchoring 
+      stage for APMT
 Formula:- 
     • for any given month, vessels which took more than 75 hours for anchor/ 
     Total vessels that anchored

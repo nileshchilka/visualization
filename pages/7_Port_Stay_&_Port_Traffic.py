@@ -17,7 +17,8 @@ st.text("""Description:-
     • Shows Median Port Stay Duration of Top 6 terminals of APMT vs Top 6 terminals 
       of Non APMT
 Observations:-
-    • We see that Non APMT has outperformed APMT terminals having less port stay time.
+    • We see that Non APMT has outperformed APMT terminals having less port stay 
+      time.
 Formula:-
     • For any given terminal, median of duration of particular vessel category
     """)
@@ -26,8 +27,8 @@ Formula:-
 st.plotly_chart(top_6_APMT_vs_Non_APMT_Terminals_on_port_traffic(), use_container_width=True)
 
 st.text("""Description:-
-    • Shows the count of vessels served on daily basis at Top 6 terminals of APMT vs 
-      Top 6 terminals of Non APMT
+    • Shows the count of vessels served on daily basis at Top 6 terminals of APMT 
+      vs Top 6 terminals of Non APMT
 Observations:-
     • We see that Non APMT has outperformed APMT terminals while serving more 
       vessels on daily basis

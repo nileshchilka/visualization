@@ -501,7 +501,7 @@ def percentage_of_vessels_which_took_longer_time_at_anchor():
 def percentage_vessels_not_anchored_before_serving_line():
     fig = go.Figure(
         layout=go.Layout(
-            title="Percentage of vessels which took longer time at Anchor",
+            title="Percentage of vessels not anchored before serving",
             yaxis_showticklabels=True, yaxis_showgrid=False,
             font=dict(size=10), legend_orientation="h", legend_x=0, legend_y=1,
             margin=dict(t=25)
